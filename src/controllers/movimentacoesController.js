@@ -36,6 +36,25 @@ function listar(req, res) {
   res.json(lista);
 }
 
+function atualizar(req, res) {
+  const existente = db.prepare('SELECT * FROM movimentacoes WHERE id = ?').get(req.params.id);
+  if (!existente) return res.status(404).json({ erro: 'Movimentação não encontrada' });
+
+  const erro = validar(req.body);
+  if (erro) return res.status(400).json({ erro });
+
+  const { descricao, valor, tipo, data } = req.body;
+  const categoria = existente.categoria;
+  db.prepare('UPDATE movimentacoes SET descricao = ?, valor = ?, tipo = ?, categoria = ?, data = ? WHERE id = ?')
+    .run(String(descricao).trim(), Number(valor), tipo, categoria, data, req.params.id);
+
+  res.json(db.prepare('SELECT * FROM movimentacoes WHERE id = ?').get(req.params.id));
+}
+
+module.exports = {
+  criar,
+  listar,
+  atualizar,
 module.exports = {
   criar,
   listar,

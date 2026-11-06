@@ -16,6 +16,7 @@
     <section class="card">
       <h2 id="tituloForm">Nova movimentação</h2>
       <form id="form" novalidate>
+        <input type="hidden" id="id">
         <label>Descrição <input type="text" id="descricao" placeholder="Ex.: Mercado"></label>
         <label>Valor (R$) <input type="number" id="valor" step="0.01" placeholder="0,00"></label>
         <label>Data <input type="date" id="data"></label>
@@ -28,6 +29,7 @@
         <p id="erro" class="erro" aria-live="polite"></p>
         <div class="botoes">
           <button type="submit">Salvar</button>
+          <button type="button" id="cancelar" class="secundario" hidden>Cancelar</button>
         </div>
       </form>
     </section>
