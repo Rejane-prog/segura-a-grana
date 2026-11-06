@@ -114,7 +114,7 @@ gitGraph
 | v0.1.0 | Estrutura e documentação |
 | v0.2.0 | Banco, cadastro e listagem |
 | v0.3.0 | Edição, exclusão, categorias, saldo e filtro |
-| v1.0.0 | Versão final documentada |
+| v1.0.1 | Versão final documentada |
 
 ## 👩‍💻 Autora
 Rejane Ferreira de Mendonça
