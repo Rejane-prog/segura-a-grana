@@ -62,4 +62,7 @@ module.exports = {
   listar,
   atualizar,
   excluir,
+module.exports = {
+  criar,
+  listar,
 };
