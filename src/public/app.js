@@ -61,6 +61,7 @@ function iniciarEdicao(id) {
   document.getElementById('valor').value = m.valor;
   document.getElementById('data').value = m.data;
   document.getElementById('tipo').value = m.tipo;
+  document.getElementById('categoria').value = m.categoria;
   tituloForm.textContent = 'Editar movimentação';
   btnCancelar.hidden = false;
   erro.textContent = '';
@@ -85,6 +86,7 @@ form.addEventListener('submit', async (e) => {
     data: document.getElementById('data').value,
     tipo: document.getElementById('tipo').value,
   };
+  dados.categoria = document.getElementById('categoria').value;
 
   const id = campoId.value;
   const resp = await fetch(id ? `/api/movimentacoes/${id}` : '/api/movimentacoes', {
