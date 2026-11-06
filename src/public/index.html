@@ -4,9 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Segura a Grana</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>💰 Segura a Grana</h1>
-  <p>Em construção...</p>
+  <main class="container">
+    <header>
+      <h1>💰 Segura a Grana</h1>
+      <p>Controle simples das suas finanças</p>
+    </header>
+
+    <section class="card">
+      <h2 id="tituloForm">Nova movimentação</h2>
+      <form id="form" novalidate>
+        <label>Descrição <input type="text" id="descricao" placeholder="Ex.: Mercado"></label>
+        <label>Valor (R$) <input type="number" id="valor" step="0.01" placeholder="0,00"></label>
+        <label>Data <input type="date" id="data"></label>
+        <label>Tipo
+          <select id="tipo">
+            <option value="receita">Receita</option>
+          </select>
+        </label>
+        <p id="erro" class="erro" aria-live="polite"></p>
+        <div class="botoes">
+          <button type="submit">Salvar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
