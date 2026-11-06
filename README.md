@@ -1,6 +1,6 @@
 # 💰 Segura a Grana
 
-![versão](https://img.shields.io/badge/versão-v1.0.0-blue)
+![versão](https://img.shields.io/badge/versão-v1.0.1-blue)
 ![licença](https://img.shields.io/badge/licença-MIT-green)
 ![status](https://img.shields.io/badge/status-concluído-brightgreen)
 ![node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
