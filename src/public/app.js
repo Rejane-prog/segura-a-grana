@@ -101,14 +101,12 @@ form.addEventListener('submit', async (e) => {
     valor: document.getElementById('valor').value,
     data: document.getElementById('data').value,
     tipo: document.getElementById('tipo').value,
+    categoria: document.getElementById('categoria').value,
   };
-  dados.categoria = document.getElementById('categoria').value;
 
   const id = campoId.value;
   const resp = await fetch(id ? `/api/movimentacoes/${id}` : '/api/movimentacoes', {
     method: id ? 'PUT' : 'POST',
-  const resp = await fetch('/api/movimentacoes', {
-    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dados),
   });
