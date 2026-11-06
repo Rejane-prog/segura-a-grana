@@ -51,8 +51,15 @@ function atualizar(req, res) {
   res.json(db.prepare('SELECT * FROM movimentacoes WHERE id = ?').get(req.params.id));
 }
 
+function excluir(req, res) {
+  const resultado = db.prepare('DELETE FROM movimentacoes WHERE id = ?').run(req.params.id);
+  if (resultado.changes === 0) return res.status(404).json({ erro: 'Movimentação não encontrada' });
+  res.status(204).end();
+}
+
 module.exports = {
   criar,
   listar,
   atualizar,
+  excluir,
 };
