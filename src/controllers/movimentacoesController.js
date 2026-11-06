@@ -30,9 +30,14 @@ function criar(req, res) {
   const movimentacao = db.prepare('SELECT * FROM movimentacoes WHERE id = ?').get(resultado.lastInsertRowid);
   res.status(201).json(movimentacao);
 }
+
+function listar(req, res) {
   const lista = db.prepare('SELECT * FROM movimentacoes ORDER BY data DESC, id DESC').all();
+  res.json(lista);
+}
   const categoria = existente.categoria;
 
 module.exports = {
   criar,
+  listar,
 };
