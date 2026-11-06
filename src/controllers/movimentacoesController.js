@@ -1,6 +1,6 @@
 const db = require('../database');
 
-const TIPOS = ['receita'];
+const TIPOS = ['receita', 'despesa'];
 
 function validar(dados) {
   const { descricao, valor, tipo, data } = dados;
