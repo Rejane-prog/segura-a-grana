@@ -106,6 +106,8 @@ form.addEventListener('submit', async (e) => {
   const id = campoId.value;
   const resp = await fetch(id ? `/api/movimentacoes/${id}` : '/api/movimentacoes', {
     method: id ? 'PUT' : 'POST',
+  const resp = await fetch('/api/movimentacoes', {
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dados),
   });
