@@ -37,7 +37,10 @@ function criar(req, res) {
 }
 
 function listar(req, res) {
-  const lista = db.prepare('SELECT * FROM movimentacoes ORDER BY data DESC, id DESC').all();
+  const { tipo } = req.query;
+  const lista = TIPOS.includes(tipo)
+    ? db.prepare('SELECT * FROM movimentacoes WHERE tipo = ? ORDER BY data DESC, id DESC').all(tipo)
+    : db.prepare('SELECT * FROM movimentacoes ORDER BY data DESC, id DESC').all();
   res.json(lista);
 }
 
