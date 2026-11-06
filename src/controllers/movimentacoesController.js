@@ -81,7 +81,4 @@ module.exports = {
   atualizar,
   excluir,
   saldo,
-module.exports = {
-  criar,
-  listar,
 };
