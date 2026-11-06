@@ -1,6 +1,7 @@
 const db = require('../database');
 
 const TIPOS = ['receita', 'despesa'];
+const CATEGORIAS = ['Salário', 'Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Saúde', 'Educação', 'Outros'];
 
 function validar(dados) {
   const { descricao, valor, tipo, data } = dados;
@@ -17,12 +18,16 @@ function validar(dados) {
   return null;
 }
 
+function definirCategoria(categoria) {
+  return CATEGORIAS.includes(categoria) ? categoria : 'Outros';
+}
+
 function criar(req, res) {
   const erro = validar(req.body);
   if (erro) return res.status(400).json({ erro });
 
   const { descricao, valor, tipo, data } = req.body;
-  const categoria = 'Outros';
+  const categoria = definirCategoria(req.body.categoria);
   const resultado = db
     .prepare('INSERT INTO movimentacoes (descricao, valor, tipo, categoria, data) VALUES (?, ?, ?, ?, ?)')
     .run(String(descricao).trim(), Number(valor), tipo, categoria, data);
@@ -44,7 +49,7 @@ function atualizar(req, res) {
   if (erro) return res.status(400).json({ erro });
 
   const { descricao, valor, tipo, data } = req.body;
-  const categoria = existente.categoria;
+  const categoria = definirCategoria(req.body.categoria);
   db.prepare('UPDATE movimentacoes SET descricao = ?, valor = ?, tipo = ?, categoria = ?, data = ? WHERE id = ?')
     .run(String(descricao).trim(), Number(valor), tipo, categoria, data, req.params.id);
 
