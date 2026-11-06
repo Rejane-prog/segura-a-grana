@@ -44,6 +44,7 @@ async function carregarLista() {
       <div class="acoes">
         <span class="valor">${m.tipo === 'despesa' ? '-' : '+'} ${moeda(m.valor)}</span>
         <button type="button" class="editar" data-id="${m.id}">Editar</button>
+        <button type="button" class="excluir" data-id="${m.id}">Excluir</button>
       </div>
     </li>`).join('');
 }
@@ -64,6 +65,14 @@ function iniciarEdicao(id) {
   btnCancelar.hidden = false;
   erro.textContent = '';
   form.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function excluir(id) {
+  if (!confirm('Deseja realmente excluir esta movimentação?')) return;
+  const resp = await fetch(`/api/movimentacoes/${id}`, { method: 'DELETE' });
+  if (!resp.ok) alert('Movimentação não encontrada');
+  if (campoId.value === String(id)) limparForm();
+  await atualizarTela();
 }
 
 form.addEventListener('submit', async (e) => {
@@ -100,6 +109,7 @@ lista.addEventListener('click', (e) => {
   const id = e.target.dataset.id;
   if (!id) return;
   if (e.target.classList.contains('editar')) iniciarEdicao(Number(id));
+  if (e.target.classList.contains('excluir')) excluir(id);
 });
 
 limparForm();
