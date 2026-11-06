@@ -55,4 +55,7 @@ module.exports = {
   criar,
   listar,
   atualizar,
+module.exports = {
+  criar,
+  listar,
 };
