@@ -62,9 +62,20 @@ function excluir(req, res) {
   res.status(204).end();
 }
 
+function saldo(req, res) {
+  const totais = db.prepare(`
+    SELECT
+      COALESCE(SUM(CASE WHEN tipo = 'receita' THEN valor ELSE 0 END), 0) AS receitas,
+      COALESCE(SUM(CASE WHEN tipo = 'despesa' THEN valor ELSE 0 END), 0) AS despesas
+    FROM movimentacoes
+  `).get();
+  res.json({ ...totais, saldo: totais.receitas - totais.despesas });
+}
+
 module.exports = {
   criar,
   listar,
   atualizar,
   excluir,
+  saldo,
 };
