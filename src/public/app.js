@@ -4,6 +4,7 @@ const lista = document.getElementById('lista');
 const campoId = document.getElementById('id');
 const btnCancelar = document.getElementById('cancelar');
 const tituloForm = document.getElementById('tituloForm');
+const filtro = document.getElementById('filtro');
 
 let movimentacoes = [];
 
@@ -22,7 +23,7 @@ function limparForm() {
 }
 
 async function carregarLista() {
-  const resp = await fetch('/api/movimentacoes');
+  const resp = await fetch('/api/movimentacoes' + (filtro.value ? `?tipo=${filtro.value}` : ''));
   if (!resp.ok) {
     lista.innerHTML = '<li class="vazio">Erro ao carregar movimentações</li>';
     return;
@@ -30,7 +31,7 @@ async function carregarLista() {
   movimentacoes = await resp.json();
 
   if (movimentacoes.length === 0) {
-    const mensagem = 'Nenhuma movimentação cadastrada';
+    const mensagem = filtro.value ? 'Nenhuma movimentação encontrada' : 'Nenhuma movimentação cadastrada';
     lista.innerHTML = `<li class="vazio">${mensagem}</li>`;
     return;
   }
@@ -128,6 +129,8 @@ lista.addEventListener('click', (e) => {
   if (e.target.classList.contains('editar')) iniciarEdicao(Number(id));
   if (e.target.classList.contains('excluir')) excluir(id);
 });
+
+filtro.addEventListener('change', carregarLista);
 
 limparForm();
 atualizarTela();
