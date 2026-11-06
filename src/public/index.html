@@ -13,9 +13,16 @@
       <p>Controle simples das suas finanças</p>
     </header>
 
+    <section class="resumo">
+      <div class="box"><span>Receitas</span><strong id="totalReceitas">R$ 0,00</strong></div>
+      <div class="box"><span>Despesas</span><strong id="totalDespesas">R$ 0,00</strong></div>
+      <div class="box"><span>Saldo</span><strong id="saldo">R$ 0,00</strong></div>
+    </section>
+
     <section class="card">
       <h2 id="tituloForm">Nova movimentação</h2>
       <form id="form" novalidate>
+        <input type="hidden" id="id">
         <label>Descrição <input type="text" id="descricao" placeholder="Ex.: Mercado"></label>
         <label>Valor (R$) <input type="number" id="valor" step="0.01" placeholder="0,00"></label>
         <label>Data <input type="date" id="data"></label>
@@ -25,9 +32,23 @@
             <option value="despesa">Despesa</option>
           </select>
         </label>
+        <label>Categoria
+          <select id="categoria">
+            <option value="">Selecione</option>
+            <option>Salário</option>
+            <option>Alimentação</option>
+            <option>Transporte</option>
+            <option>Moradia</option>
+            <option>Lazer</option>
+            <option>Saúde</option>
+            <option>Educação</option>
+            <option>Outros</option>
+          </select>
+        </label>
         <p id="erro" class="erro" aria-live="polite"></p>
         <div class="botoes">
           <button type="submit">Salvar</button>
+          <button type="button" id="cancelar" class="secundario" hidden>Cancelar</button>
         </div>
       </form>
     </section>
@@ -35,6 +56,11 @@
     <section class="card">
       <div class="lista-topo">
         <h2>Movimentações</h2>
+        <select id="filtro" aria-label="Filtrar por tipo">
+          <option value="">Todas</option>
+          <option value="receita">Receitas</option>
+          <option value="despesa">Despesas</option>
+        </select>
       </div>
       <ul id="lista"></ul>
     </section>

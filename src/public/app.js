@@ -1,6 +1,10 @@
 const form = document.getElementById('form');
 const erro = document.getElementById('erro');
 const lista = document.getElementById('lista');
+const campoId = document.getElementById('id');
+const btnCancelar = document.getElementById('cancelar');
+const tituloForm = document.getElementById('tituloForm');
+const filtro = document.getElementById('filtro');
 
 let movimentacoes = [];
 
@@ -13,10 +17,13 @@ function limparForm() {
   form.reset();
   document.getElementById('data').value = hoje();
   erro.textContent = '';
+  campoId.value = '';
+  tituloForm.textContent = 'Nova movimentação';
+  btnCancelar.hidden = true;
 }
 
 async function carregarLista() {
-  const resp = await fetch('/api/movimentacoes');
+  const resp = await fetch('/api/movimentacoes' + (filtro.value ? `?tipo=${filtro.value}` : ''));
   if (!resp.ok) {
     lista.innerHTML = '<li class="vazio">Erro ao carregar movimentações</li>';
     return;
@@ -24,7 +31,7 @@ async function carregarLista() {
   movimentacoes = await resp.json();
 
   if (movimentacoes.length === 0) {
-    const mensagem = 'Nenhuma movimentação cadastrada';
+    const mensagem = filtro.value ? 'Nenhuma movimentação encontrada' : 'Nenhuma movimentação cadastrada';
     lista.innerHTML = `<li class="vazio">${mensagem}</li>`;
     return;
   }
@@ -37,12 +44,52 @@ async function carregarLista() {
       </div>
       <div class="acoes">
         <span class="valor">${m.tipo === 'despesa' ? '-' : '+'} ${moeda(m.valor)}</span>
+        <button type="button" class="editar" data-id="${m.id}">Editar</button>
+        <button type="button" class="excluir" data-id="${m.id}">Excluir</button>
       </div>
     </li>`).join('');
 }
 
+async function carregarSaldo() {
+  const saldo = document.getElementById('saldo');
+  const resp = await fetch('/api/movimentacoes/saldo');
+  if (!resp.ok) {
+    saldo.textContent = 'Erro';
+    return;
+  }
+  const totais = await resp.json();
+  document.getElementById('totalReceitas').textContent = moeda(totais.receitas);
+  document.getElementById('totalDespesas').textContent = moeda(totais.despesas);
+  saldo.textContent = moeda(totais.saldo);
+  saldo.classList.toggle('negativo', totais.saldo < 0);
+}
+
 async function atualizarTela() {
   await carregarLista();
+  await carregarSaldo();
+}
+
+function iniciarEdicao(id) {
+  const m = movimentacoes.find((item) => item.id === id);
+  if (!m) return;
+  campoId.value = m.id;
+  document.getElementById('descricao').value = m.descricao;
+  document.getElementById('valor').value = m.valor;
+  document.getElementById('data').value = m.data;
+  document.getElementById('tipo').value = m.tipo;
+  document.getElementById('categoria').value = m.categoria;
+  tituloForm.textContent = 'Editar movimentação';
+  btnCancelar.hidden = false;
+  erro.textContent = '';
+  form.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function excluir(id) {
+  if (!confirm('Deseja realmente excluir esta movimentação?')) return;
+  const resp = await fetch(`/api/movimentacoes/${id}`, { method: 'DELETE' });
+  if (!resp.ok) alert('Movimentação não encontrada');
+  if (campoId.value === String(id)) limparForm();
+  await atualizarTela();
 }
 
 form.addEventListener('submit', async (e) => {
@@ -55,7 +102,11 @@ form.addEventListener('submit', async (e) => {
     data: document.getElementById('data').value,
     tipo: document.getElementById('tipo').value,
   };
+  dados.categoria = document.getElementById('categoria').value;
 
+  const id = campoId.value;
+  const resp = await fetch(id ? `/api/movimentacoes/${id}` : '/api/movimentacoes', {
+    method: id ? 'PUT' : 'POST',
   const resp = await fetch('/api/movimentacoes', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -71,6 +122,17 @@ form.addEventListener('submit', async (e) => {
   limparForm();
   await atualizarTela();
 });
+
+btnCancelar.addEventListener('click', limparForm);
+
+lista.addEventListener('click', (e) => {
+  const id = e.target.dataset.id;
+  if (!id) return;
+  if (e.target.classList.contains('editar')) iniciarEdicao(Number(id));
+  if (e.target.classList.contains('excluir')) excluir(id);
+});
+
+filtro.addEventListener('change', carregarLista);
 
 limparForm();
 atualizarTela();
