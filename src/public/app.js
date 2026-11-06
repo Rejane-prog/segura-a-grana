@@ -49,8 +49,23 @@ async function carregarLista() {
     </li>`).join('');
 }
 
+async function carregarSaldo() {
+  const saldo = document.getElementById('saldo');
+  const resp = await fetch('/api/movimentacoes/saldo');
+  if (!resp.ok) {
+    saldo.textContent = 'Erro';
+    return;
+  }
+  const totais = await resp.json();
+  document.getElementById('totalReceitas').textContent = moeda(totais.receitas);
+  document.getElementById('totalDespesas').textContent = moeda(totais.despesas);
+  saldo.textContent = moeda(totais.saldo);
+  saldo.classList.toggle('negativo', totais.saldo < 0);
+}
+
 async function atualizarTela() {
   await carregarLista();
+  await carregarSaldo();
 }
 
 function iniciarEdicao(id) {
