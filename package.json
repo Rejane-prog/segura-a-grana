@@ -1,6 +1,6 @@
 {
   "name": "segura-a-grana",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Controle simples de finanças pessoais",
   "main": "src/server.js",
   "scripts": {
