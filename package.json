@@ -1,10 +1,13 @@
 {
   "name": "segura-a-grana",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Controle simples de finanças pessoais",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node --env-file-if-exists=.env src/server.js"
+  },
+  "engines": {
+    "node": ">=22.13"
   },
   "author": "Rejane Ferreira de Mendonça",
   "license": "MIT",
