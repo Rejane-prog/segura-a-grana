@@ -5,6 +5,8 @@ Formato baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e
 
 ## [Não lançado]
 
+## [1.1.0] - 2026-11-07
+
 ### Adicionado
 - Testes automatizados para RF01–RF08 com `node:test` e banco em memória.
 - Testes de validação (RNF03) e de desempenho com 5 000 movimentações (RNF04).
@@ -43,7 +45,8 @@ Formato baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e
 ### Adicionado
 - Estrutura inicial (#1), Project Charter (#2), requisitos (#3), casos de uso (#4) e user stories (#5).
 
-[Não lançado]: https://github.com/Rejane-prog/segura-a-grana/compare/v1.0.1...develop
+[Não lançado]: https://github.com/Rejane-prog/segura-a-grana/compare/v1.1.0...develop
+[1.1.0]: https://github.com/Rejane-prog/segura-a-grana/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/Rejane-prog/segura-a-grana/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/Rejane-prog/segura-a-grana/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/Rejane-prog/segura-a-grana/compare/v0.2.0...v0.3.0
